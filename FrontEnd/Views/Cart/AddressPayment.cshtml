@@ -1,0 +1,48 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string userId = HttpContextAccessor.HttpContext?.Request.Cookies["userId"];
+}
+
+@model FrontEnd.Models.AddressPaymentViewModel
+@if (TempData["Failure"] is not null)
+{
+    <div class="alert alert-danger col-12 mt-4"><strong> @TempData["Failure"]</strong></div>
+}
+
+<div class="row hidden-md-up">
+    <div class="col-sm-12 col-md-4">
+        <div class="card mr-10 my-5 mycard" style="">
+            <div class="card-body bg-primary text-white">
+              <h5 class="card-title ">CheckOut Details</h5>
+              @foreach(var product in Model.Product){
+                <p class="card-text text-white">@product.name @product.quantity</p>
+              }
+              <h6 class="card-subtitle mb-1">Total : @ViewBag.Total</h6>
+              <hr style="color:white">
+              <form asp-controller="Cart" asp-action="Checkout" asp-route-UserId="@userId" method="post">
+              <p class="card-text text-white">Address : <select asp-for="AddressId" class="bg-info text-white rounded">      
+                  @foreach(var address in Model.Address){
+                        <option value="@address.id">@address.name</option>
+                        }
+                      </select></p>
+              
+                    <button asp-action="Create" asp-controller="Address" class="btn btn-sm btn-info mb-3 text-white">Add New Address</button>
+                        <p class="card-text text-white">
+                            Payment Method : <select asp-for="PaymentMethodId" class="bg-info text-white rounded">
+                                @foreach (var paymentMethod in Model.PaymentMethod)
+                                {
+                                    <option value="@paymentMethod.paymentMethodId">@paymentMethod.provider</option>
+                                }
+                            </select>
+                        </p>
+                    <button asp-action="Create" asp-controller="CustomerPayment" class="btn btn-sm btn-info mb-3 text-white">Add new payment method</button>
+                    @if (Model.Address.Count != 0 && Model.PaymentMethod.Count != 0)
+                    {
+                        <button type="submit" class="btn btn-sm btn-success">Proceed to Checkout</button>
+                    }
+                </form>
+            </div>
+          </div>
+    </div>
+  </div>

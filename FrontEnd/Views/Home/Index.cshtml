@@ -1,0 +1,25 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string role = HttpContextAccessor.HttpContext?.Request.Cookies["role"];
+}
+@{
+    ViewData["Title"] = "Home Page";
+}
+@if (TempData["Success"] is not null)
+{
+    <div class="alert alert-success col-12 mt-4"><strong> @TempData["Success"]</strong></div>
+}
+@if (TempData["Failure"] is not null)
+{
+    <div class="alert alert-danger col-12 mt-4"><strong> @TempData["Failure"]</strong></div>
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    @if (role == "Customer")
+    {
+        <a class="btn btn-sm btn-dark" asp-controller="CustomerPayment" asp-action="Index">Payment Methods</a>
+        <a class="btn btn-sm btn-dark" asp-controller="Address" asp-action="Index">Addresses</a>
+    }
+</div>

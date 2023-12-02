@@ -1,0 +1,38 @@
+﻿@model IEnumerable<FrontEnd.Models.CustomerOrderViewModel>
+
+@{
+    ViewData["Title"] = "AllOrders";
+}
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by OrderId: @Html.TextBox("OrderId")
+    </p>
+    <p><input class="btn btn-sm btn-outline-dark" type="submit" value="Search" /></p>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.orderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.orderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

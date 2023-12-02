@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string userId = HttpContextAccessor.HttpContext?.Request.Cookies["userId"];
+}
+
+@model List<FrontEnd.Models.ProductViewModel>
+
+
+@if (TempData["Success"] is not null)
+{
+    <div class="alert alert-success col-12 mt-4"><strong> @TempData["Success"]</strong></div>
+}
+@if (TempData["Failure"] is not null)
+{
+    <div class="alert alert-danger col-12 mt-4"><strong> @TempData["Failure"]</strong></div>
+}
+
+<div class="row">
+    <div class="col-10 text-center">
+        <h1>Cart</h1>
+    </div>
+    <div class="col-2 pt-3">
+        <a class="btn btn-outline-success btn-lg" asp-controller="Cart" asp-action="AddressPayment">CheckOut</a>
+    </div>
+</div>
+</div>
+
+<div class="text-center">
+    <table class="table table-hover">
+        <thead>
+            <tr class="table-secondary">
+                <th scope="col">Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.name</td>
+                    <td>@product.category</td>
+                    <td>@product.price</td>
+                    <td>@product.quantity <a class="btn btn-sm btn-outline-primary" asp-controller="Cart" asp-action="Increase" asp-route-id="@product.productId">+</a><a class="btn btn-sm btn-outline-primary" asp-controller="Cart" asp-action="Decrease" asp-route-id="@product.productId">-</a></td>
+                    <td><a class="btn btn-sm btn-outline-danger" asp-controller="Cart" asp-action="Remove" asp-route-id="@product.productId">Remove Item</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

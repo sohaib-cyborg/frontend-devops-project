@@ -1,0 +1,47 @@
+﻿@model IEnumerable<FrontEnd.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@if (TempData["Success"] is not null)
+{
+    <div class="alert alert-success col-12 mt-4"><strong> @TempData["Success"]</strong></div>
+}
+@if (TempData["Failure"] is not null)
+{
+    <div class="alert alert-danger col-12 mt-4"><strong> @TempData["Failure"]</strong></div>
+}
+<h1>Orders</h1>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by OrderId: @Html.TextBox("OrderId")
+    </p>
+    <p><input class="btn btn-sm btn-outline-dark" type="submit" value="Search" /></p>
+}
+<div class="container">
+    <div class="row">
+        @foreach (var order in Model)
+        {
+
+            <div class="col">
+                <div class="card text-black bg-primary mb-3" style="max-width: 15rem;">
+                    <div class="card" style="width: 15rem;">
+                        <div class="card-body">
+                            <p class="card-text">Id : @order.OrderId</p>
+                            <p class="card-text">Status : @order.CompleteOrderStatus</p>
+                            @foreach (var tracking in order.TrackingList)
+                            {
+                                <p class="card-text">ShippingDate : @tracking.ShippingDate</p>
+                                <p class="card-text">Partial Status : @tracking.Status</p>
+                                <p class="card-text">Total : @tracking.Total</p>
+                                <p class="card-text"><a class="btn btn-sm btn-primary" asp-controller="Order" asp-action="OrderDetails" asp-route-id="@tracking.TrackingId">Order Details</a></p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

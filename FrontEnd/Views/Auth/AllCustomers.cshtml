@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FrontEnd.Models.UserViewModel>
+
+@{
+    ViewData["Title"] = "AllCustomers";
+}
+
+<h1>Customers</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.userId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customerEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customerPhone)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.userId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customerEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customerPhone)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+﻿@model List<FrontEnd.Models.OrderViewModel>
+
+@{
+    ViewData["Title"] = "SearchOrder";
+}
+
+<h1>Order</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <p>OrderId</p>
+            </th>
+            <th>
+                <p>CompleteOrderStatus</p>
+            </th>
+            <th><p>TrackingDetails</p></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompleteOrderStatus)
+            </td>
+            <td>
+                    @foreach (var tracking in item.TrackingList)
+                    {
+                        <p>Tracking Id : @tracking.TrackingId</p>
+                        <p>Total : @tracking.Total</p>
+                        <p>ShippingDate : @tracking.ShippingDate</p>
+                    }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

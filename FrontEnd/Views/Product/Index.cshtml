@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    string role = HttpContextAccessor.HttpContext?.Request.Cookies["role"];
+}
+@model IEnumerable<FrontEnd.Models.ProductViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@if (TempData["Success"] is not null)
+{
+    <div class="alert alert-success col-12 mt-4"><strong> @TempData["Success"]</strong></div>
+}
+@if (TempData["Failure"] is not null)
+{
+    <div class="alert alert-danger col-12 mt-4"><strong> @TempData["Failure"]</strong></div>
+}
+
+<h1>Products</h1>
+
+<p>
+    @if (role == "Admin")
+    {
+        <a class="btn btn-sm btn-outline-dark" asp-controller="Product" asp-action="Create">Create New</a>
+    }
+</p>
+<div class="container">
+    <div class="row">
+        @foreach (var product in Model)
+        {
+
+            <div class="col">
+                <div class="card text-black bg-primary mb-3" style="max-width: 15rem;">
+                    <div class="card" style="width: 15rem;">
+                        <div class="card-body">
+                            <img src="/Uploads/@product.image" style="width:200px;height:100px" />
+                            <h5 class="card-title"></h5><h3>@product.name</h3>
+                            <p class="card-text">@product.description</p>
+                            <p class="card-text">@product.price PKR</p>
+                            @if (role=="Customer")
+                            {
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@product.productId" class="btn btn-warning">Add to Cart</a>
+                            }
+                            @if (role=="Admin")
+                            {
+                                <a asp-controller="Product" asp-action="Update" asp-route-id="@product.productId" class="btn btn-primary">Edit</a> <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.productId" class="btn btn-danger">Delete</a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>

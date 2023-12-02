@@ -1,0 +1,40 @@
+﻿@model IEnumerable<FrontEnd.Models.CustomerPaymentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-controller="CustomerPayment" asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.paymentMethodId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.provider)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.paymentMethodId)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.provider)
+            </td>
+            <td>
+                <a class="btn btn-sm btn-info" asp-controller="CustomerPayment" asp-action="Edit" asp-route-id="@item.paymentMethodId">Edit</a> 
+                    <a class="btn btn-sm btn-danger" asp-controller="CustomerPayment" asp-action="Delete" asp-route-id="@item.paymentMethodId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
